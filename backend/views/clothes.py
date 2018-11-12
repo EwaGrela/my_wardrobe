@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, Blueprint, request
 
 from wardrobe.model import WardrobeManager
+from wardrobe.model import DataBaseConnector
 
-interface = WardrobeManager()
+connector = DataBaseConnector()
+interface = WardrobeManager(connector)
 
 
 blueprint = Blueprint("clothes", __name__)

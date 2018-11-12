@@ -1,21 +1,15 @@
 import os
 import json
 
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from sqlalchemy.sql import collate
-from datetime import datetime
-
 from wardrobe.model.models import Clothes, Garment
+from wardrobe.model.database_connector import DataBaseConnector
 
 class WardrobeManager:
-    def __init__(self):
-        engine = create_engine(os.environ['DATABASE_URL'])
-        Session = sessionmaker(bind=engine)
-        self.session = Session()
+    def __init__(self, database_connector):
+        self.connector = database_connector
     
     def show_garments(self):
-        all_garments = self.session.query(Garment).all()
+        all_garments = self.connector.session.query(Garment).all()
         return all_garments
 
     def create_garment(self, name):
@@ -24,8 +18,8 @@ class WardrobeManager:
             self.add_garment(new_garment)
         
     def add_garment(self, item):
-        self.session.add(item)
-        self.session.commit()
+        self.connector.session.add(item)
+        self.connector.session.commit()
 
     def verify_garment_type(self, item):
         garments = self.show_garments()
@@ -35,8 +29,8 @@ class WardrobeManager:
         return False
 
     def add_clothing(self, item):
-        self.session.add(item)
-        self.session.commit()
+        self.connector.session.add(item)
+        self.connector.session.commit()
 
     def create_clothing(self, model, name, info):
         new_item = Clothes(model=model, name=name, info=info)
@@ -47,7 +41,7 @@ class WardrobeManager:
             self.add_clothing(new_item)
     
     def show_clothes(self):
-        clothes = self.session.query(Clothes).all()
+        clothes = self.connector.session.query(Clothes).all()
         clothes = [item.to_json() for item in clothes]
         return clothes
     
@@ -56,8 +50,8 @@ class WardrobeManager:
         return "OK"
     
     def delete_clothing(self, cloth_id):
-        to_delete = self.session.query(Clothes).filter(Clothes.id == cloth_id).one_or_none()
-        self.session.delete(to_delete)
-        self.session.commit()
+        to_delete = self.connector.session.query(Clothes).filter(Clothes.id == cloth_id).one_or_none()
+        self.connector.session.delete(to_delete)
+        self.connector.session.commit()
         return "Deleted"
 
