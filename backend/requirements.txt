@@ -35,7 +35,7 @@ Pygments==2.2.0
 pylint==1.9.2
 python-dateutil==2.7.5
 pytz==2018.7
-PyYAML==3.12
+PyYAML==5.4
 requests==2.18.4
 rsa==4.0
 simplegeneric==0.8.1
