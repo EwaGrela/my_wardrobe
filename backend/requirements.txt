@@ -11,7 +11,7 @@ flask-oidc==1.4.0
 Flask-SQLAlchemy==2.3.2
 httplib2==0.11.3
 idna==2.6
-ipython==5.6.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 isort==4.3.4
 itsdangerous==1.1.0
